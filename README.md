@@ -19,7 +19,7 @@ mgos_balert_t alert = mgos_balert_create(...);
 mgos_bvarc_t state = mgos_bthing_get_state(MGOS_BALERT_THINGCAST(alert));
 int level = mgos_bvar_get_integer(mgos_bvarc_get_key(state, "level"));
 int code = mgos_bvar_get_integer(mgos_bvarc_get_key(state, "code"));
-int msg = mgos_bvar_get_str(mgos_bvarc_get_key(state, "message"));
+const char *msg = mgos_bvar_get_str(mgos_bvarc_get_key(state, "message"));
 ```
 ## C/C++ APIs Reference
 ### MGOS_BALERT_TYPE
