@@ -30,7 +30,7 @@ extern "C" {
 struct mg_bthing_sens;
 typedef struct mg_bthing_sens *mgos_balert_t;
 
-#define MGOS_BALERT_LEVEL_NONE 0;
+#define MGOS_BALERT_LEVEL_NONE 0
 
 enum mgos_balert_level {
     MGOS_BALERT_LEVEL_INFO = 1,
