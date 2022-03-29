@@ -1,9 +1,6 @@
 # bAlerts Library
 ## Overview
 A bAlert allows you to easily set alert messages: info, warning and errors.
-## GET STARTED
-Get started using one of the following examples.
-* [Wemos D1 Mini + YF-S201 flow meter](https://github.com/diy365-mgos/balert-gpio#get-started)
 ## Inherited APIs
 A bAlert inherits inherits APIs from:
 - [bThing](https://github.com/diy365-mgos/bthing)
