@@ -16,7 +16,7 @@ enum mg_bthing_state_result mg_balert_getting_state_cb(struct mg_bthing_sens *al
                                                            mgos_bvar_t state,
                                                            void *userdata) {
   if (alert && state) {
-    if (mgos_bvar_is_null(state) || (mgos_bvar_type(state) == MGOS_BVAR_TYPE_DIC)) {
+    if (mgos_bvar_is_null(state) || (mgos_bvar_get_type(state) == MGOS_BVAR_TYPE_DIC)) {
       return MG_BTHING_STATE_RESULT_UNHANDLED;
     }
   }
