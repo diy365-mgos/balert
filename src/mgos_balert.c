@@ -45,7 +45,7 @@ bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level,
       mgos_bvar_set_key_integer(state, "code", code);
       mgos_bvar_set_key_str(state, "message", msg ? msg : "");
       mgos_bthing_update_state(MGOS_BALERT_THINGCAST(alert));
-      LOG((level == MGOS_BALERT_LEVEL_INFO ? LL_INFO : (level == MGOS_BALERT_LEVEL_WARNING ? LL_WARN : LL_ERROR)),
+      LOG((level == MGOS_BALERT_LEVEL_ERROR ? LL_ERROR : (level == MGOS_BALERT_LEVEL_WARNING ? LL_WARN : LL_INFO)),
         ("L:%d | C:%d | '%s'", level, code, (msg ? msg : "")));
       return true;
     }
@@ -66,14 +66,7 @@ bool mgos_balert_error(mgos_balert_t alert, int code, const char *msg) {
 }
 
 void mgos_balert_clear(mgos_balert_t alert) {
-  if (alert) {
-    mgos_bvar_t state = mg_bthing_get_state_4update(MGOS_BALERT_THINGCAST(alert));
-    if (state) {
-      mgos_bvar_set_key_integer(state, "level", MGOS_BALERT_LEVEL_NONE);
-      mgos_bvar_set_key_integer(state, "code", 0);
-      mgos_bvar_set_key_str(state, "message", "");
-    }
-  }
+  mgos_balert_set(alert, MGOS_BALERT_LEVEL_NONE, 0, NULL);
 }
 
 
