@@ -30,12 +30,12 @@ extern "C" {
 struct mg_bthing_sens;
 typedef struct mg_bthing_sens *mgos_balert_t;
 
-#define MGOS_BALERT_LEVEL_NONE 0
+#define MGOS_BALERT_LEVEL_NONE -1
 
 enum mgos_balert_level {
-    MGOS_BALERT_LEVEL_INFO = 1,
-    MGOS_BALERT_LEVEL_WARNING = 2,
-    MGOS_BALERT_LEVEL_ERROR = 3,
+    MGOS_BALERT_LEVEL_INFO = 0,
+    MGOS_BALERT_LEVEL_WARNING = 1,
+    MGOS_BALERT_LEVEL_ERROR = 2,
 };
 
 mgos_bthing_t MGOS_BALERT_THINGCAST(mgos_balert_t alert);

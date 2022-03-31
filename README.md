@@ -12,7 +12,7 @@ The [mgos_bthing_get_state()](https://github.com/diy365-mgos/bthing#mgos_bthing_
 |Key|Type||
 |--|--|--|
 |level|integer|The alert's level or `MGOS_BALERT_LEVEL_NONE` if there is no alert.|
-|code|integer|The alert's code or `0` if there is no alert.|
+|code|integer|The alert's code or `-1` if there is no alert.|
 |message|string|The alert's message or `""` if there is no alert.|
 ```c
 mgos_balert_t alert = mgos_balert_create(...);
@@ -71,9 +71,9 @@ Casts a bAlert to a bSensor to be used with [inherited bSensor APIs](https://git
 ### mgos_balert_level
 ```c
 enum mgos_balert_level {
-    MGOS_BALERT_LEVEL_INFO = 1,
-    MGOS_BALERT_LEVEL_WARNING = 2,
-    MGOS_BALERT_LEVEL_ERROR = 3,
+    MGOS_BALERT_LEVEL_INFO = 0,
+    MGOS_BALERT_LEVEL_WARNING = 1,
+    MGOS_BALERT_LEVEL_ERROR = 2,
 };
 ```
 The alert's level.
@@ -145,6 +145,6 @@ Clears an alert message.
 
 **Remarks**
 
-The state of a cleared bAlert is: `level=MGOS_BALERT_LEVEL_NONE`, `code=MGOS_BALERT_LEVEL_NONE` and `message=""`.
+The state of a cleared bAlert is: `level=MGOS_BALERT_LEVEL_NONE`, `code=0` and `message=""`.
 ## To Do
 - Implement javascript APIs for [Mongoose OS MJS](https://github.com/mongoose-os-libs/mjs).
