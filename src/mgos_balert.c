@@ -44,6 +44,7 @@ bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level,
       mgos_bvar_set_key_integer(state, "level", level);
       mgos_bvar_set_key_integer(state, "code", code);
       mgos_bvar_set_key_str(state, "message", msg ? msg : "");
+      mgos_bthing_update_state(MGOS_BALERT_THINGCAST(alert));
       LOG((level == MGOS_BALERT_LEVEL_INFO ? LL_INFO : (level == MGOS_BALERT_LEVEL_WARNING ? LL_WARN : LL_ERROR)),
         ("L:%d | C:%d | '%s'", level, code, (msg ? msg : "")));
       return true;
