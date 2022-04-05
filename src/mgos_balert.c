@@ -39,12 +39,13 @@ mgos_balert_t mgos_balert_create(const char *id, const char *domain) {
 bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level,
                            int code, const char *msg) {
   if (alert) {
-    mgos_bvar_t state = mg_bthing_get_state_4update(MGOS_BALERT_THINGCAST(alert));
-    if (state) {
-      mgos_bvar_set_key_integer(state, "level", level);
-      mgos_bvar_set_key_integer(state, "code", code);
-      mgos_bvar_set_key_str(state, "message", msg ? msg : "");
-      mgos_bthing_update_state(MGOS_BALERT_THINGCAST(alert));
+    struct mgos_bthing_updatable_state state;
+    if (mgos_bthing_start_update_state(MGOS_BALERT_THINGCAST(alert), &state)) {
+      mgos_bvar_set_key_integer(state.value, "level", level);
+      mgos_bvar_set_key_integer(state.value, "code", code);
+      mgos_bvar_set_key_str(state.value, "message", msg ? msg : "");
+      mgos_bthing_end_update_state(state);
+      
       LOG((level == MGOS_BALERT_LEVEL_ERROR ? LL_ERROR : (level == MGOS_BALERT_LEVEL_WARNING ? LL_WARN : LL_INFO)),
         ("L:%d | C:%d | '%s'", level, code, (msg ? msg : "")));
       return true;
