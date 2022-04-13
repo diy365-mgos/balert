@@ -44,10 +44,13 @@ bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level,
       mgos_bvar_set_key_integer(state.value, "level", level);
       mgos_bvar_set_key_integer(state.value, "code", code);
       mgos_bvar_set_key_str(state.value, "message", msg ? msg : "");
+
+      if (mgos_bvar_is_changed(state.value)) {
+        LOG((level == MGOS_BALERT_LEVEL_ERROR ? LL_ERROR : (level == MGOS_BALERT_LEVEL_WARNING ? LL_WARN : LL_INFO)),
+          ("L:%d | C:%d | '%s'", level, code, (msg ? msg : "")));
+      }
+
       mgos_bthing_end_update_state(state);
-      
-      LOG((level == MGOS_BALERT_LEVEL_ERROR ? LL_ERROR : (level == MGOS_BALERT_LEVEL_WARNING ? LL_WARN : LL_INFO)),
-        ("L:%d | C:%d | '%s'", level, code, (msg ? msg : "")));
       return true;
     }
   }
