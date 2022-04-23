@@ -8,18 +8,11 @@ A bAlert inherits inherits APIs from:
 #### Remarks on: mgos_bthing_on_get_state()
 The bAlert doesn't need a [get-state handler](https://github.com/diy365-mgos/bthing#mgos_bthing_get_state_handler_t). So, even if you set an handler, it is ignored.
 ### Remarks on: mgos_bthing_get_state()
-The [mgos_bthing_get_state()](https://github.com/diy365-mgos/bthing#mgos_bthing_get_state) returns a [bVariantDictionary](https://github.com/diy365-mgos/bvar-dic) having following keys:
-|Key|Type||
-|--|--|--|
-|level|integer|The alert's level or `MGOS_BALERT_LEVEL_NONE` if there is no alert.|
-|code|integer|The alert's code or `-1` if there is no alert.|
-|message|string|The alert's message or `""` if there is no alert.|
+The [mgos_bthing_get_state()](https://github.com/diy365-mgos/bthing#mgos_bthing_get_state) returns a string value.
 ```c
 mgos_balert_t alert = mgos_balert_create(...);
 mgos_bvarc_t state = mgos_bthing_get_state(MGOS_BALERT_THINGCAST(alert));
-int level = mgos_bvar_get_integer(mgos_bvarc_get_key(state, "level"));
-int code = mgos_bvar_get_integer(mgos_bvarc_get_key(state, "code"));
-const char *msg = mgos_bvar_get_str(mgos_bvarc_get_key(state, "message"));
+const char *msg = mgos_bvar_get_str(state);
 ```
 ## C/C++ APIs Reference
 ### MGOS_BALERT_TYPE
@@ -104,7 +97,7 @@ Sets an alert message. Returns `true` if success, `true` otherwise.
 ```c
 bool mgos_balert_info(mgos_balert_t alert, int code, const char *msg);
 ```
-Sets an alert INFO message. Returns `true` if success, `true` otherwise.
+Sets an alert info message. Returns `true` if success, `true` otherwise.
 
 |Parameter||
 |--|--|
@@ -115,7 +108,7 @@ Sets an alert INFO message. Returns `true` if success, `true` otherwise.
 ```c
 bool mgos_balert_warning(mgos_balert_t alert, int code, const char *msg);
 ```
-Sets an alert WARNING message. Returns `true` if success, `true` otherwise.
+Sets an alert warning message. Returns `true` if success, `true` otherwise.
 
 |Parameter||
 |--|--|
@@ -126,7 +119,7 @@ Sets an alert WARNING message. Returns `true` if success, `true` otherwise.
 ```c
 bool mgos_balert_error(mgos_balert_t alert, int code, const char *msg);
 ```
-Sets an alert ERROR message. Returns `true` if success, `true` otherwise.
+Sets an alert error message. Returns `true` if success, `true` otherwise.
 
 |Parameter||
 |--|--|
