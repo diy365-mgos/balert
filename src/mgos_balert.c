@@ -42,16 +42,11 @@ bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level, int code
   if (alert) {
     struct mgos_bthing_updatable_state state;
     if (mgos_bthing_start_update_state(MGOS_BALERT_THINGCAST(alert), &state)) {
-      sprintf(s_tmpbuf, "%c%d|%s",
+      sprintf(s_tmpbuf, "%c%d %s",
         (level == MGOS_BALERT_LEVEL_ERROR ? 'E' : (level == MGOS_BALERT_LEVEL_WARNING ? 'W' : 'I')),
         code, (msg ? msg: ""));
 
       mgos_bvar_set_str(state.value, s_tmpbuf);
-
-      if (mgos_bvar_is_changed(state.value)) {
-        LOG(,
-          ("%s", ));
-      }
 
       mgos_bthing_end_update_state(state);
       return true;
