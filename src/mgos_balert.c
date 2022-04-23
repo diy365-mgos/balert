@@ -7,7 +7,8 @@
 #include "mjs.h"
 #endif
 
-static char s_tmpbuf[256];
+#define MG_BALERT_TMPBUF_SIZE 256
+static char s_tmpbuf[MG_BALERT_TMPBUF_SIZE];
 
 mgos_bthing_t MGOS_BALERT_THINGCAST(mgos_balert_t alert) {
   return MG_BTHING_SENS_CAST4(MG_BALERT_CAST1(alert));
@@ -41,13 +42,18 @@ mgos_balert_t mgos_balert_create(const char *id, const char *domain) {
 bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level, int code, const char *msg) {
   if (alert) {
     struct mgos_bthing_updatable_state state;
+    // start state-update
     if (mgos_bthing_start_update_state(MGOS_BALERT_THINGCAST(alert), &state)) {
-      sprintf(s_tmpbuf, "%c|%d|%s",
+      // compose the full alert message: "<level:E,W,I>|<code>|<message>".
+      sprintf(s_tmpbuf, "%c|%d|%.*s",
         (level == MGOS_BALERT_LEVEL_ERROR ? 'E' : (level == MGOS_BALERT_LEVEL_WARNING ? 'W' : 'I')),
-        code, (msg ? msg: ""));
-
+        code,
+        (MG_BALERT_TMPBUF_SIZE-10), (msg ? msg: ""));
+      
+      LOG(LL_INFO, ("%s", s_tmpbuf));
+      // set the state
       mgos_bvar_set_str(state.value, s_tmpbuf);
-
+      // end state-update
       mgos_bthing_end_update_state(state);
       return true;
     }
