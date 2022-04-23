@@ -8,7 +8,7 @@ A bAlert inherits inherits APIs from:
 #### Remarks on: mgos_bthing_on_get_state()
 The bAlert doesn't need a [get-state handler](https://github.com/diy365-mgos/bthing#mgos_bthing_get_state_handler_t). So, even if you set an handler, it is ignored.
 ### Remarks on: mgos_bthing_get_state()
-The [mgos_bthing_get_state()](https://github.com/diy365-mgos/bthing#mgos_bthing_get_state) returns a string value.
+The [mgos_bthing_get_state()](https://github.com/diy365-mgos/bthing#mgos_bthing_get_state) returns a formatted string value: "&lt;level:'E','W','I'&gt;|&lt;code&gt;|&lt;message&gt;".
 ```c
 mgos_balert_t alert = mgos_balert_create(...);
 mgos_bvarc_t state = mgos_bthing_get_state(MGOS_BALERT_THINGCAST(alert));
