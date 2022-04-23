@@ -7,6 +7,8 @@
 #include "mjs.h"
 #endif
 
+static char s_tmpbuf[256];
+
 mgos_bthing_t MGOS_BALERT_THINGCAST(mgos_balert_t alert) {
   return MG_BTHING_SENS_CAST4(MG_BALERT_CAST1(alert));
 }
@@ -36,18 +38,19 @@ mgos_balert_t mgos_balert_create(const char *id, const char *domain) {
   return NULL; 
 }
 
-bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level,
-                           int code, const char *msg) {
+bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level, int code, const char *msg) {
   if (alert) {
     struct mgos_bthing_updatable_state state;
     if (mgos_bthing_start_update_state(MGOS_BALERT_THINGCAST(alert), &state)) {
-      mgos_bvar_set_key_integer(state.value, "level", level);
-      mgos_bvar_set_key_integer(state.value, "code", code);
-      mgos_bvar_set_key_str(state.value, "message", msg ? msg : "");
+      sprintf(s_tmpbuf, "%c%d|%s",
+        (level == MGOS_BALERT_LEVEL_ERROR ? 'E' : (level == MGOS_BALERT_LEVEL_WARNING ? 'W' : 'I')),
+        code, (msg ? msg: ""));
+
+      mgos_bvar_set_str(state.value, s_tmpbuf);
 
       if (mgos_bvar_is_changed(state.value)) {
-        LOG((level == MGOS_BALERT_LEVEL_ERROR ? LL_ERROR : (level == MGOS_BALERT_LEVEL_WARNING ? LL_WARN : LL_INFO)),
-          ("L:%d | C:%d | '%s'", level, code, (msg ? msg : "")));
+        LOG(,
+          ("%s", ));
       }
 
       mgos_bthing_end_update_state(state);
