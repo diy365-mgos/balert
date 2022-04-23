@@ -50,7 +50,7 @@ bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level, int code
         code,
         (MG_BALERT_TMPBUF_SIZE-10), (msg ? msg: ""));
       
-      LOG(LL_INFO, ("%s", s_tmpbuf));
+      LOG(LL_DEBUG, ("%s", s_tmpbuf));
       // set the state
       mgos_bvar_set_str(state.value, s_tmpbuf);
       // end state-update
