@@ -45,7 +45,7 @@ bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level, int code
     struct mgos_bthing_updatable_state state;
     // start state-update
     if (mgos_bthing_start_update_state(MGOS_BALERT_THINGCAST(alert), &state)) {
-      switch (expression) {
+      switch (level) {
         case MGOS_BALERT_LEVEL_INFO:
         case MGOS_BALERT_LEVEL_WARNING:
         case MGOS_BALERT_LEVEL_ERROR:
