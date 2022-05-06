@@ -45,14 +45,21 @@ bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level, int code
     struct mgos_bthing_updatable_state state;
     // start state-update
     if (mgos_bthing_start_update_state(MGOS_BALERT_THINGCAST(alert), &state)) {
-      if (level != MGOS_BALERT_LEVEL_NONE) {
-        // compose the full alert message: "<level:I,W,E><code>".
-        sprintf(s_tmpbuf, "%c%d", s_chlevel[level], code);
-        mgos_bvar_set_str(state.value, s_tmpbuf);
-      } else {
-        mgos_bvar_set_null(state.value);
+      switch (expression) {
+        case MGOS_BALERT_LEVEL_INFO:
+        case MGOS_BALERT_LEVEL_WARNING:
+        case MGOS_BALERT_LEVEL_ERROR:
+        {
+          // compose the full alert message: "<level:I,W,E><code>".
+          sprintf(s_tmpbuf, "%c%d", s_chlevel[level], code);
+          mgos_bvar_set_str(state.value, s_tmpbuf);
+          break;
+        }
+        default:
+          mgos_bvar_set_null(state.value);
+          break;
       }
-      
+
       // end state-update
       mgos_bthing_end_update_state(state);
       return true;
