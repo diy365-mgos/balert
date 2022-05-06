@@ -44,12 +44,11 @@ mgos_bsensor_t MGOS_BALERT_DOWNCAST(mgos_balert_t alert);
 
 mgos_balert_t mgos_balert_create(const char *id, const char *domain);
 
-bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level,
-                     int code, const char *msg);
+bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level, int code);
 
-bool mgos_balert_info(mgos_balert_t alert, int code, const char *msg);
-bool mgos_balert_warning(mgos_balert_t alert, int code, const char *msg);
-bool mgos_balert_error(mgos_balert_t alert, int code, const char *msg);
+bool mgos_balert_info(mgos_balert_t alert, int code);
+bool mgos_balert_warning(mgos_balert_t alert, int code);
+bool mgos_balert_error(mgos_balert_t alert, int code);
 
 void mgos_balert_clear(mgos_balert_t alert);
 
