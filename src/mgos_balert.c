@@ -7,8 +7,9 @@
 #include "mjs.h"
 #endif
 
-#define MG_BALERT_TMPBUF_SIZE 256
+#define MG_BALERT_TMPBUF_SIZE 10
 static char s_tmpbuf[MG_BALERT_TMPBUF_SIZE];
+static char s_chlevel["IWE"];
 
 mgos_bthing_t MGOS_BALERT_THINGCAST(mgos_balert_t alert) {
   return MG_BTHING_SENS_CAST4(MG_BALERT_CAST1(alert));
@@ -39,22 +40,15 @@ mgos_balert_t mgos_balert_create(const char *id, const char *domain) {
   return NULL; 
 }
 
-bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level, int code, const char *msg) {
+bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level, int code) {
   if (alert) {
     struct mgos_bthing_updatable_state state;
     // start state-update
     if (mgos_bthing_start_update_state(MGOS_BALERT_THINGCAST(alert), &state)) {
       if (level != MGOS_BALERT_LEVEL_NONE) {
-        // compose the full alert message: "<level:E,W,I>|<code>|<message>".
-        sprintf(s_tmpbuf, "%c|%d|%.*s",
-          (level == MGOS_BALERT_LEVEL_ERROR ? 'E' : (level == MGOS_BALERT_LEVEL_WARNING ? 'W' : 'I')),
-          code,
-          (MG_BALERT_TMPBUF_SIZE-10), (msg ? msg: ""));
-      
-        // set the state
-        LOG(LL_DEBUG, ("%s", s_tmpbuf));
+        // compose the full alert message: "<level:I,W,E><code>".
+        sprintf(s_tmpbuf, "%c%d", s_chlevel[level], code);
         mgos_bvar_set_str(state.value, s_tmpbuf);
-
       } else {
         mgos_bvar_set_null(state.value);
       }
@@ -67,20 +61,20 @@ bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level, int code
   return false;
 }
 
-bool mgos_balert_info(mgos_balert_t alert, int code, const char *msg) {
-  return mgos_balert_set(alert, MGOS_BALERT_LEVEL_INFO, code, msg);
+bool mgos_balert_info(mgos_balert_t alert, int code) {
+  return mgos_balert_set(alert, MGOS_BALERT_LEVEL_INFO, code);
 }
 
-bool mgos_balert_warning(mgos_balert_t alert, int code, const char *msg) {
-  return mgos_balert_set(alert, MGOS_BALERT_LEVEL_WARNING, code, msg);
+bool mgos_balert_warning(mgos_balert_t alert, int code) {
+  return mgos_balert_set(alert, MGOS_BALERT_LEVEL_WARNING, code);
 }
 
-bool mgos_balert_error(mgos_balert_t alert, int code, const char *msg) {
-  return mgos_balert_set(alert, MGOS_BALERT_LEVEL_ERROR, code, msg);
+bool mgos_balert_error(mgos_balert_t alert, int code) {
+  return mgos_balert_set(alert, MGOS_BALERT_LEVEL_ERROR, code);
 }
 
 void mgos_balert_clear(mgos_balert_t alert) {
-  mgos_balert_set(alert, MGOS_BALERT_LEVEL_NONE, 0, NULL);
+  mgos_balert_set(alert, MGOS_BALERT_LEVEL_NONE, 0);
 }
 
 

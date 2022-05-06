@@ -83,8 +83,7 @@ Creates a bAlert. Returns `NULL` on error.
 |domain|The domain name or `NULL`.|
 ### mgos_balert_set
 ```c
-bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level,
-                     int code, const char *msg);
+bool mgos_balert_set(mgos_balert_t alert, enum mgos_balert_level level, int code);
 ```
 Sets an alert message. Returns `true` if success, `true` otherwise.
 
@@ -93,40 +92,36 @@ Sets an alert message. Returns `true` if success, `true` otherwise.
 |alert|A bAlert.|
 |level|The alert's level.|
 |code|The alert's code.|
-|msg|The alert's message.|
 ### mgos_balert_info
 ```c
-bool mgos_balert_info(mgos_balert_t alert, int code, const char *msg);
+bool mgos_balert_info(mgos_balert_t alert, int code);
 ```
 Sets an alert info message. Returns `true` if success, `true` otherwise.
 
 |Parameter||
 |--|--|
 |alert|A bAlert.|
-|code|The alert's code.|
-|msg|The alert's message.|
+|code|The info code.|
 ### mgos_balert_warning
 ```c
-bool mgos_balert_warning(mgos_balert_t alert, int code, const char *msg);
+bool mgos_balert_warning(mgos_balert_t alert, int code);
 ```
 Sets an alert warning message. Returns `true` if success, `true` otherwise.
 
 |Parameter||
 |--|--|
 |alert|A bAlert.|
-|code|The alert's code.|
-|msg|The alert's message.|
+|code|The warning code.|
 ### mgos_balert_error
 ```c
-bool mgos_balert_error(mgos_balert_t alert, int code, const char *msg);
+bool mgos_balert_error(mgos_balert_t alert, int code);
 ```
 Sets an alert error message. Returns `true` if success, `true` otherwise.
 
 |Parameter||
 |--|--|
 |alert|A bAlert.|
-|code|The alert's code.|
-|msg|The alert's message.|
+|code|The error code.|
 ### mgos_balert_clear
 ```c
 void mgos_balert_clear(mgos_balert_t alert);
@@ -139,6 +134,6 @@ Clears an alert message.
 
 **Remarks**
 
-The state of a cleared bAlert is: `level=MGOS_BALERT_LEVEL_NONE`, `code=0` and `message=""`.
+The state of a cleared bAlert is: `level=MGOS_BALERT_LEVEL_NONE` and `code=0`.
 ## To Do
 - Implement javascript APIs for [Mongoose OS MJS](https://github.com/mongoose-os-libs/mjs).
