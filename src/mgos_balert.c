@@ -9,7 +9,7 @@
 
 #define MG_BALERT_TMPBUF_SIZE 10
 static char s_tmpbuf[MG_BALERT_TMPBUF_SIZE];
-static char s_chlevel = "IWE";
+static char *s_chlevel = "IWE";
 
 mgos_bthing_t MGOS_BALERT_THINGCAST(mgos_balert_t alert) {
   return MG_BTHING_SENS_CAST4(MG_BALERT_CAST1(alert));
